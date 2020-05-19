@@ -37,5 +37,27 @@ export const store: APIGatewayProxyHandler = async (event, _context) => {
 };
 
 export const get: APIGatewayProxyHandler = async (event, _context) => {
+    const connection = mysql.createConnection({
+        host     : 'tikal-roadmap-rpi.c9zxb6rj9l9b.eu-west-1.rds.amazonaws.com',
+        user     : 'admin',
+        password : 'I3u0a2356',
+        database : 'tikal_roadmap_rpi'
+    });
 
-}
+    connection.connect();
+
+    const results = await new Promise((resolve, reject) => {
+        connection.query('SELECT * FROM `entries` where 1', function (error, results, fields) {
+            resolve(results)
+        });
+    });
+
+    connection.end();
+
+    return {
+        statusCode: 200,
+        body: JSON.stringify({
+            results
+        }, null, 2)
+    }
+};

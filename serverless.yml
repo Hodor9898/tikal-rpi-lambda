@@ -28,3 +28,10 @@ functions:
       - http:
           method: post
           path: register
+
+  fetch:
+    handler: handler.get
+    events:
+      - http:
+          method: get
+          path: entries
